@@ -35,7 +35,7 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Welcome to Billy!")
 	})
-	http.ListenAndServe(":3000", nil)
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 
 	bot := slacker.NewClient(os.Getenv("API_TOKEN"))
 	bot.Init(func() {
