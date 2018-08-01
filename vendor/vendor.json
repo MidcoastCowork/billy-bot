@@ -1,0 +1,45 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"path": "all",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "hEnH6sgR83Qfx7UNnphNNlelmj0=",
+			"origin": "github.com/shomali11/slacker/vendor/github.com/gorilla/websocket",
+			"path": "github.com/gorilla/websocket",
+			"revision": "e68b061d68c25d75dfcfcb177f9298bb9cd77fb4",
+			"revisionTime": "2018-06-07T01:01:41Z"
+		},
+		{
+			"checksumSHA1": "gfZcDHrsjNfvWFOFhiEdL+Kmszw=",
+			"origin": "github.com/shomali11/slacker/vendor/github.com/nlopes/slack",
+			"path": "github.com/nlopes/slack",
+			"revision": "e68b061d68c25d75dfcfcb177f9298bb9cd77fb4",
+			"revisionTime": "2018-06-07T01:01:41Z"
+		},
+		{
+			"checksumSHA1": "uNZ/uGoQGZtr56/d/vlhe1YHdcg=",
+			"origin": "github.com/shomali11/slacker/vendor/github.com/shomali11/commander",
+			"path": "github.com/shomali11/commander",
+			"revision": "e68b061d68c25d75dfcfcb177f9298bb9cd77fb4",
+			"revisionTime": "2018-06-07T01:01:41Z"
+		},
+		{
+			"checksumSHA1": "L1Hps/a38Xb3/1Hj8RO6UZuINbA=",
+			"origin": "github.com/shomali11/slacker/vendor/github.com/shomali11/proper",
+			"path": "github.com/shomali11/proper",
+			"revision": "e68b061d68c25d75dfcfcb177f9298bb9cd77fb4",
+			"revisionTime": "2018-06-07T01:01:41Z"
+		},
+		{
+			"checksumSHA1": "hl6GFfoSCdixUHZsHTQn/0xKPE4=",
+			"path": "github.com/shomali11/slacker",
+			"revision": "e68b061d68c25d75dfcfcb177f9298bb9cd77fb4",
+			"revisionTime": "2018-06-07T01:01:41Z"
+		}
+	],
+	"rootPath": "github.com/moos3/billy-bot"
+}
