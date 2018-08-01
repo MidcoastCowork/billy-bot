@@ -7,7 +7,8 @@ import (
 	"github.com/shomali11/slacker"
 )
 
-func handle(request slacker.Request, response slacker.ResponseWriter) {
+// handleHello - Simple Hello handler
+func handleHello(request slacker.Request, response slacker.ResponseWriter) {
 	name := request.Param("name")
 	if name == "" {
 		response.Reply("Usage: @billy hello Name")
@@ -16,6 +17,7 @@ func handle(request slacker.Request, response slacker.ResponseWriter) {
 	response.Reply("Hey " + name + "!")
 }
 
+// handleWifi - Simple handler for giving out wifi information
 func handleWifi(request slacker.Request, response slacker.ResponseWriter) {
 	ssid := os.Getenv("WIFI_SSID")
 	sauce := os.Getenv("WIFI_SAUCE")
@@ -38,7 +40,7 @@ func main() {
 	bot.Err(func(err string) {
 		log.Println(err)
 	})
-	bot.Command("hello <name>", "Say hello to someone", handle)
+	bot.Command("hello <name>", "Say hello to someone", handleHello)
 	bot.Command("wifi", "get the wifi information", handleWifi)
 	bot.Command("ping", "Ping!", func(request slacker.Request, response slacker.ResponseWriter) {
 		response.Reply("pong")
