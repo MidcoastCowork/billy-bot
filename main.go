@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/shomali11/slacker"
@@ -31,11 +29,6 @@ func handleWifi(request slacker.Request, response slacker.ResponseWriter) {
 }
 
 func main() {
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Welcome to Billy!")
-	})
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 
 	bot := slacker.NewClient(os.Getenv("API_TOKEN"))
 	bot.Init(func() {
