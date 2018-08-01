@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 
@@ -11,7 +12,7 @@ import (
 func handle(request slacker.Request, response slacker.ResponseWriter) {
 	name := request.Param("name")
 	if name == "" {
-		response.Reply("Usage: @hellobot hello Name")
+		response.Reply("Usage: @billy hello Name")
 		return
 	}
 	response.Reply("Hey " + name + "!")
@@ -37,6 +38,13 @@ func main() {
 	http.ListenAndServe(":3000", nil)
 
 	bot := slacker.NewClient(os.Getenv("API_TOKEN"))
+	bot.Init(func() {
+		log.Println("Connected!")
+	})
+
+	bot.Err(func(err string) {
+		log.Println(err)
+	})
 	bot.Command("hello <name>", "Say hello to someone", handle)
 	bot.Command("wifi", "get the wifi information", handleWifi)
 	bot.Command("ping", "Ping!", func(request slacker.Request, response slacker.ResponseWriter) {
