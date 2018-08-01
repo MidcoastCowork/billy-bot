@@ -7,7 +7,12 @@ import (
 )
 
 func handle(request slacker.Request, response slacker.ResponseWriter) {
-	response.Reply("Hey!")
+	name := request.Param("name")
+	if name == "" {
+		response.Reply("Usage: @hellobot hello Name")
+		return
+	}
+	response.Reply("Hey " + name + "!")
 }
 
 func handleWifi(request slacker.Request, response slacker.ResponseWriter) {
@@ -20,7 +25,6 @@ func handleWifi(request slacker.Request, response slacker.ResponseWriter) {
 	} else {
 		response.Reply("Wifi isn't setup! Set it up and make some friends!")
 	}
-
 }
 
 func main() {
