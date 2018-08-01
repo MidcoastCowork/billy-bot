@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/shomali11/slacker"
@@ -28,6 +30,12 @@ func handleWifi(request slacker.Request, response slacker.ResponseWriter) {
 }
 
 func main() {
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Welcome to Billy!")
+	})
+	http.ListenAndServe(":3000", nil)
+
 	bot := slacker.NewClient(os.Getenv("API_TOKEN"))
 	bot.Command("hello <name>", "Say hello to someone", handle)
 	bot.Command("wifi", "get the wifi information", handleWifi)
