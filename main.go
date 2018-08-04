@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 
@@ -45,7 +46,11 @@ func main() {
 	bot.Command("ping", "Ping!", func(request slacker.Request, response slacker.ResponseWriter) {
 		response.Reply("pong")
 	})
-	err := bot.Listen()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := bot.Listen(ctx)
 	if err != nil {
 		panic(err)
 	}

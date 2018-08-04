@@ -82,43 +82,48 @@ func (s *Slacker) Command(usage string, description string, handler func(request
 }
 
 // Listen receives events from Slack and each is handled as needed
-func (s *Slacker) Listen() error {
+func (s *Slacker) Listen(ctx context.Context) error {
 	s.prependHelpHandle()
 
 	go s.rtm.ManageConnection()
 
 	for msg := range s.rtm.IncomingEvents {
-		switch event := msg.Data.(type) {
-		case *slack.ConnectedEvent:
-			if s.initHandler == nil {
-				continue
-			}
-			go s.initHandler()
-
-		case *slack.MessageEvent:
-			if s.isFromBot(event) {
-				continue
-			}
-
-			if !s.isBotMentioned(event) && !s.isDirectMessage(event) {
-				continue
-			}
-			go s.handleMessage(event)
-
-		case *slack.RTMError:
-			if s.errorHandler == nil {
-				continue
-			}
-			go s.errorHandler(event.Error())
-
-		case *slack.InvalidAuthEvent:
-			return errors.New(invalidToken)
-
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
 		default:
-			if s.defaultEventHandler == nil {
-				continue
+			switch event := msg.Data.(type) {
+			case *slack.ConnectedEvent:
+				if s.initHandler == nil {
+					continue
+				}
+				go s.initHandler()
+
+			case *slack.MessageEvent:
+				if s.isFromBot(event) {
+					continue
+				}
+
+				if !s.isBotMentioned(event) && !s.isDirectMessage(event) {
+					continue
+				}
+				go s.handleMessage(ctx, event)
+
+			case *slack.RTMError:
+				if s.errorHandler == nil {
+					continue
+				}
+				go s.errorHandler(event.Error())
+
+			case *slack.InvalidAuthEvent:
+				return errors.New(invalidToken)
+
+			default:
+				if s.defaultEventHandler == nil {
+					continue
+				}
+				go s.defaultEventHandler(event)
 			}
-			go s.defaultEventHandler(event)
 		}
 	}
 	return nil
@@ -147,9 +152,8 @@ func (s *Slacker) isDirectMessage(event *slack.MessageEvent) bool {
 	return strings.HasPrefix(event.Channel, directChannelMarker)
 }
 
-func (s *Slacker) handleMessage(event *slack.MessageEvent) {
+func (s *Slacker) handleMessage(ctx context.Context, event *slack.MessageEvent) {
 	response := NewResponse(event.Channel, s.client, s.rtm)
-	ctx := context.Background()
 
 	for _, cmd := range s.botCommands {
 		parameters, isMatch := cmd.Match(event.Text)

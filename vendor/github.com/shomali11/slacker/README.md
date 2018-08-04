@@ -28,6 +28,7 @@ Defining a command using slacker
 package main
 
 import (
+	"context"
 	"github.com/shomali11/slacker"
 	"log"
 )
@@ -39,11 +40,15 @@ func main() {
 		response.Reply("pong")
 	})
 
-	err := bot.Listen()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := bot.Listen(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
+
 ```
 
 ## Example 2
@@ -56,6 +61,7 @@ package main
 import (
 	"log"
 
+	"context"
 	"fmt"
 	"github.com/shomali11/slacker"
 )
@@ -83,11 +89,15 @@ func main() {
 		response.Reply("Your own help function...")
 	})
 
-	err := bot.Listen()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := bot.Listen(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
+
 ```
 
 ## Example 3
@@ -98,6 +108,7 @@ Defining a command with a parameter
 package main
 
 import (
+	"context"
 	"github.com/shomali11/slacker"
 	"log"
 )
@@ -110,11 +121,15 @@ func main() {
 		response.Reply(word)
 	})
 
-	err := bot.Listen()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := bot.Listen(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
+
 ```
 
 ## Example 4
@@ -126,6 +141,7 @@ _(The second parameter is the default value in case no parameter was passed or c
 package main
 
 import (
+	"context"
 	"github.com/shomali11/slacker"
 	"log"
 )
@@ -141,11 +157,15 @@ func main() {
 		}
 	})
 
-	err := bot.Listen()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := bot.Listen(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
+
 ```
 
 ## Example 5
@@ -156,6 +176,7 @@ Send an error message to the Slack channel
 package main
 
 import (
+	"context"
 	"errors"
 	"github.com/shomali11/slacker"
 	"log"
@@ -168,11 +189,15 @@ func main() {
 		response.ReportError(errors.New("Oops!"))
 	})
 
-	err := bot.Listen()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := bot.Listen(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
+
 ```
 
 ## Example 6
@@ -183,6 +208,7 @@ Send a "Typing" indicator
 package main
 
 import (
+	"context"
 	"github.com/shomali11/slacker"
 	"log"
 	"time"
@@ -195,15 +221,19 @@ func main() {
 		response.Typing()
 
 		time.Sleep(time.Second)
-		
+
 		response.Reply(time.Now().Format(time.RFC1123))
 	})
 
-	err := bot.Listen()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := bot.Listen(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
+
 ```
 
 ## Example 7
@@ -217,6 +247,7 @@ package main
 import (
 	"log"
 
+	"context"
 	"github.com/nlopes/slack"
 	"github.com/shomali11/slacker"
 )
@@ -235,7 +266,10 @@ func main() {
 		client.UploadFile(slack.FileUploadParameters{Content: word, Channels: []string{channel}})
 	})
 
-	err := bot.Listen()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := bot.Listen(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -267,13 +301,16 @@ func main() {
 
 		select {
 		case <-timedContext.Done():
-			response.ReportError(errors.New("Timed out"))
+			response.ReportError(errors.New("timed out"))
 		case <-time.After(time.Minute):
 			response.Reply("Processing done!")
 		}
 	})
 
-	err := bot.Listen()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := bot.Listen(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -289,6 +326,7 @@ Showcasing the ability to add attachments to a `Reply`
 package main
 
 import (
+	"context"
 	"log"
 
 	"github.com/nlopes/slack"
@@ -312,7 +350,10 @@ func main() {
 		response.Reply(word, slacker.WithAttachments(attachments))
 	})
 
-	err := bot.Listen()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := bot.Listen(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}

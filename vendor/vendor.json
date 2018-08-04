@@ -35,10 +35,10 @@
 			"revisionTime": "2018-06-07T01:01:41Z"
 		},
 		{
-			"checksumSHA1": "hl6GFfoSCdixUHZsHTQn/0xKPE4=",
+			"checksumSHA1": "jeJBdEqejoTL1B5P89qxXIbwP9I=",
 			"path": "github.com/shomali11/slacker",
-			"revision": "e68b061d68c25d75dfcfcb177f9298bb9cd77fb4",
-			"revisionTime": "2018-06-07T01:01:41Z"
+			"revision": "bbb73be78dcb0d6339f03abdcfebaed035252d32",
+			"revisionTime": "2018-08-02T02:22:29Z"
 		}
 	],
 	"rootPath": "github.com/moos3/billy-bot"
