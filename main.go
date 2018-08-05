@@ -41,10 +41,16 @@ func main() {
 	bot.Err(func(err string) {
 		log.Println(err)
 	})
+
 	bot.Command("hello <name>", "Say hello to someone", handleHello)
-	bot.Command("wifi", "get the wifi information", handleWifi)
-	bot.Command("ping", "Ping!", func(request slacker.Request, response slacker.ResponseWriter) {
+	bot.Command("wifi", "Retrieve wifi information", handleWifi)
+	bot.Command("ping", "Check on the bot", func(request slacker.Request, response slacker.ResponseWriter) {
 		response.Reply("pong")
+	})
+
+	bot.DefaultCommand(func(request slacker.Request, response slacker.ResponseWriter) {
+		info, _ := bot.GetUserInfo("UBH9U4N75")
+		response.Reply("I'm not sure what you're looking for, " + info.Profile.FirstName + ". Try the 'help' command.")
 	})
 
 	ctx, cancel := context.WithCancel(context.Background())
