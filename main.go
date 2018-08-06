@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/shomali11/slacker"
 )
@@ -49,8 +50,12 @@ func main() {
 	})
 
 	bot.DefaultCommand(func(request slacker.Request, response slacker.ResponseWriter) {
-		info, _ := bot.GetUserInfo("UBH9U4N75")
-		response.Reply("I'm not sure what you're looking for, " + info.Profile.FirstName + ". Try the 'help' command.")
+		userInfo, _ := bot.GetUserInfo(request.Event().User)
+		name := userInfo.Profile.DisplayName
+		if name == "" {
+			name = strings.Split(userInfo.Profile.RealName, " ")[0]
+		}
+		response.Reply("I'm not sure what you're looking for, " + name + ". Try the 'help' command.")
 	})
 
 	ctx, cancel := context.WithCancel(context.Background())
